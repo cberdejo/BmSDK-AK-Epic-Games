@@ -2,7 +2,9 @@ namespace BmSDK.Framework;
 
 public abstract class GameDefine
 {
-    public static GameDefine Current { get; } = new GameDefineSteam();
+    private static GameDefine? s_current = null;
+
+    public static GameDefine Current => s_current ??= Detect();
 
     public abstract string Name { get; }
 
@@ -57,5 +59,20 @@ public abstract class GameDefine
         public const IntPtr Object__Class = 68;
         public const IntPtr Struct__SuperStruct = 92;
         public const IntPtr Class__ClassFlags = 244;
+    }
+
+    // Identifies the build from the PE header's TimeDateStamp
+    private static unsafe GameDefine Detect()
+    {
+        var basePtr = (byte*)MemUtil.GetBaseAddress();
+        var ntHeaders = basePtr + *(int*)(basePtr + 0x3C);
+        var timeDateStamp = *(uint*)(ntHeaders + 8);
+
+        // Steam is the fallback since it was the only supported build before Epic
+        return timeDateStamp switch
+        {
+            GameDefineEpic.TimeDateStamp => new GameDefineEpic(),
+            _ => new GameDefineSteam(),
+        };
     }
 }

@@ -4,7 +4,7 @@
 #include "Framework/detour_manager.h"
 
 static void init_runtime() {
-    offsets::BaseAddress = (uintptr_t)(GetModuleHandle(NULL));
+    offsets::init();
     DetourRestoreAfterWith();
     DetourManager::RegisterEngineLoopPreInitDetour();
 }

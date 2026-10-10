@@ -82,7 +82,7 @@ Check out the [documentation](https://bmsdk.dev/docs) for more info!
 ## 🚀 Getting started
 If you want to use mods, here's how you get set up:
 1. Download [the latest installer](../../releases/latest/download/BmSDK-AK-Installer.exe) and run it.
-2. Pick your Arkham Knight folder. Steam installations are detected automatically, and you can browse for one yourself if yours isn't listed.
+2. Pick your Arkham Knight folder. Steam and Epic Games installations are detected automatically, and you can browse for one yourself if yours isn't listed.
 3. Press **Install**, then start the game. Script mods go in your `BmGame\Scripts` folder as .cs files.
 
 The installer isn't code-signed, so Windows SmartScreen may warn you the first time you run it. Choose "More info" → "Run anyway" to continue.
@@ -91,14 +91,14 @@ The installer isn't code-signed, so Windows SmartScreen may warn you the first t
 <summary>Installing manually instead</summary>
 
 1. Download the `BmSDK-AK-*.zip` from the latest [release](../../releases/latest) and open it.
-2. Inside you'll see two folders: `Binaries` and `BmGame`. Copy both to your game folder (likely `C:\Program Files (x86)\Steam\steamapps\common\Batman Arkham Knight`). There should already be 2 folders in there with the same names.
+2. Inside you'll see two folders: `Binaries` and `BmGame`. Copy both to your game folder (likely `C:\Program Files (x86)\Steam\steamapps\common\Batman Arkham Knight` on Steam, or `C:\Program Files\Epic Games\BatmanArkhamKnight` on Epic Games). There should already be 2 folders in there with the same names.
 3. BmSDK is now installed! Script mods go in your `BmGame\Scripts` folder as .cs files.
 </details>
 
 Keep in mind that script mods can potentially harm your computer. Make sure you only download and install mods from trusted sources.
 
-### ⚠️ Notice for Epic or GOG users:
-Only Steam copies of Arkham Knight are supported currently. EGS/GOG support is being considered, but BmSDK unfortunately does not work on these platforms for the time being.
+### ⚠️ Notice for GOG users:
+Only Steam and Epic copies of Arkham Knight are supported currently. GOG support is being considered, but BmSDK unfortunately does not work on this platform for the time being.
 
 ## 🧩 Setting Up for Mod Development
 Follow these steps to set up your environment for building, running, and debugging script mods:

@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
 
@@ -6,11 +7,12 @@ namespace BmSDK.Installer;
 internal sealed record GameInstall(string Path, string Source);
 
 /// <summary>
-/// Locates Arkham Knight installations from the Steam launcher metadata.
+/// Locates Arkham Knight installations from the Steam and Epic Games launcher metadata.
 /// </summary>
 internal static partial class GameDetector
 {
     private const string SteamAppId = "208650";
+    private const string EpicAppName = "Cowbird";
 
     /// <summary>
     /// Returns every valid installation found, deduplicated by directory.
@@ -20,7 +22,7 @@ internal static partial class GameDetector
         var results = new List<GameInstall>();
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        foreach (var install in DetectSteam())
+        foreach (var install in DetectSteam().Concat(DetectEpic()))
         {
             var path = Normalize(install.Path);
             if (IsValidGameDir(path) && seen.Add(path))
@@ -97,6 +99,50 @@ internal static partial class GameDetector
                 );
             }
         }
+    }
+
+    private static IEnumerable<GameInstall> DetectEpic()
+    {
+        var manifestsDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+            "Epic", "EpicGamesLauncher", "Data", "Manifests");
+
+        if (!Directory.Exists(manifestsDir))
+        {
+            yield break;
+        }
+
+        foreach (var manifestPath in Directory.EnumerateFiles(manifestsDir, "*.item"))
+        {
+            var installDir = ReadEpicInstallLocation(manifestPath);
+            if (installDir is not null)
+            {
+                yield return new GameInstall(installDir, "Epic Games");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Returns the install location from an Epic launcher manifest, if it belongs to Arkham Knight.
+    /// </summary>
+    private static string? ReadEpicInstallLocation(string manifestPath)
+    {
+        try
+        {
+            using var doc = JsonDocument.Parse(File.ReadAllText(manifestPath));
+            var root = doc.RootElement;
+
+            if (root.TryGetProperty("AppName", out var appName) && appName.GetString() == EpicAppName
+                && root.TryGetProperty("InstallLocation", out var location))
+            {
+                return location.GetString();
+            }
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or JsonException)
+        {
+        }
+
+        return null;
     }
 
     private static string? GetSteamPath()

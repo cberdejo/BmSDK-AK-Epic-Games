@@ -27,6 +27,7 @@ void Runtime::OnAttach()
 
     // Find base address
     Runtime::BaseAddress = (uintptr_t)(GetModuleHandle(NULL));
+    GameOffsets::Init(Runtime::BaseAddress);
 
     // Get the main thread Id
     Runtime::MainThreadId = GetCurrentThreadId();
