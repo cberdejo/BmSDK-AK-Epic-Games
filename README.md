@@ -1,6 +1,6 @@
-> **Important note**: This is the *BmSDK for Arkham Knight* repository.
+> **Important note**: This is **BmSDK-AK Epic Games**, an unofficial fork of [BmSDK for Arkham Knight](https://github.com/Team-BmSDK/BmSDK-AK) that adds support for the **Epic Games Store** copy of Batman: Arkham Knight.
 >
-> The scripthook is also available for [Batman: Arkham City](https://github.com/Team-BmSDK/BmSDK-AC).
+> All credit for BmSDK goes to its original authors, [Eli Kramer (etkramer)](https://github.com/etkramer) and [Team-BmSDK](https://github.com/Team-BmSDK). This fork only adds Epic Games compatibility on top of their work. If you play on Steam, use the [official BmSDK-AK](https://github.com/Team-BmSDK/BmSDK-AK) instead.
 
 <br />
 
@@ -15,6 +15,8 @@
 
 <p align="center">
 A powerful, easy-to-use scripting platform for Batman: Arkham Knight that lets you integrate custom C# code for gameplay mods and more.
+<br />
+<b>Epic Games compatible fork</b>
 </p>
 
 <br />
@@ -23,11 +25,11 @@ A powerful, easy-to-use scripting platform for Batman: Arkham Knight that lets y
   <a href="./LICENSE.md">
     <img alt="MIT license" src="https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge" />
   </a>
-  <a href="../../releases/latest">
-    <img alt="Latest release" src="https://img.shields.io/github/v/release/Team-BmSDK/BmSDK-AK?style=for-the-badge" />
+  <a href="https://github.com/cberdejo/BmSDK-AK-Epic-Games/releases/latest">
+    <img alt="Latest release" src="https://img.shields.io/github/v/release/cberdejo/BmSDK-AK-Epic-Games?style=for-the-badge" />
   </a>
-  <a href="../../releases/latest">
-    <img alt="Downloads" src="https://img.shields.io/github/downloads/Team-BmSDK/BmSDK-AK/total?style=for-the-badge" />
+  <a href="https://github.com/Team-BmSDK/BmSDK-AK">
+    <img alt="Upstream: Team-BmSDK/BmSDK-AK" src="https://img.shields.io/badge/upstream-Team--BmSDK%2FBmSDK--AK-blue?style=for-the-badge&logo=github" />
   </a>
   <a href="https://dotnet.microsoft.com/en-us/download/dotnet/10.0">
     <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10.0-512bd4?style=for-the-badge" />
@@ -77,11 +79,19 @@ public class DemoScript : Script
 ```
 </details>
 
-Check out the [documentation](https://bmsdk.dev/docs) for more info!
+Check out the official BmSDK [documentation](https://bmsdk.dev/docs) for more info! Everything in it applies to this fork as well.
+
+## 🎮 What this fork changes
+BmSDK relies on memory offsets that are specific to each build of the game, and the Epic Games build of Arkham Knight differs from the Steam one. This fork:
+- Detects which build is running from the executable's PE header timestamp and uses the matching set of offsets (Epic build `0x6508B1CE`), falling back to the original Steam offsets otherwise.
+- Applies this in `BmSDK`, `BmSDK.Host` and `BmSDK.Generator`.
+- Makes the installer detect Epic Games installations automatically, in addition to Steam ones.
+
+Everything else is the original BmSDK, kept in sync with the [upstream repository](https://github.com/Team-BmSDK/BmSDK-AK).
 
 ## 🚀 Getting started
 If you want to use mods, here's how you get set up:
-1. Download [the latest installer](../../releases/latest/download/BmSDK-AK-Installer.exe) and run it.
+1. Download [the latest installer](https://github.com/cberdejo/BmSDK-AK-Epic-Games/releases/latest/download/BmSDK-AK-Installer.exe) from this fork and run it.
 2. Pick your Arkham Knight folder. Steam and Epic Games installations are detected automatically, and you can browse for one yourself if yours isn't listed.
 3. Press **Install**, then start the game. Script mods go in your `BmGame\Scripts` folder as .cs files.
 
@@ -90,7 +100,7 @@ The installer isn't code-signed, so Windows SmartScreen may warn you the first t
 <details>
 <summary>Installing manually instead</summary>
 
-1. Download the `BmSDK-AK-*.zip` from the latest [release](../../releases/latest) and open it.
+1. Download the `BmSDK-AK-*.zip` from the latest [release of this fork](https://github.com/cberdejo/BmSDK-AK-Epic-Games/releases/latest) and open it.
 2. Inside you'll see two folders: `Binaries` and `BmGame`. Copy both to your game folder (likely `C:\Program Files (x86)\Steam\steamapps\common\Batman Arkham Knight` on Steam, or `C:\Program Files\Epic Games\BatmanArkhamKnight` on Epic Games). There should already be 2 folders in there with the same names.
 3. BmSDK is now installed! Script mods go in your `BmGame\Scripts` folder as .cs files.
 </details>
@@ -98,7 +108,10 @@ The installer isn't code-signed, so Windows SmartScreen may warn you the first t
 Keep in mind that script mods can potentially harm your computer. Make sure you only download and install mods from trusted sources.
 
 ### ⚠️ Notice for GOG users:
-Only Steam and Epic copies of Arkham Knight are supported currently. GOG support is being considered, but BmSDK unfortunately does not work on this platform for the time being.
+Only Steam and Epic copies of Arkham Knight are supported by this fork. GOG copies are not supported for the time being.
+
+### 🐛 Reporting issues
+Problems specific to the Epic Games build should be reported in [this fork's issue tracker](https://github.com/cberdejo/BmSDK-AK-Epic-Games/issues), not upstream. Please don't bother the original BmSDK team with Epic-related bugs, since they don't maintain this fork.
 
 ## 🧩 Setting Up for Mod Development
 Follow these steps to set up your environment for building, running, and debugging script mods:
@@ -111,9 +124,15 @@ Follow these steps to set up your environment for building, running, and debuggi
 7. Follow the [docs](https://bmsdk.dev/docs/guides/first-mod/) to write your first script.
 
 ## 🛠️ Contributing
-To get started contributing to BmSDK, see the docs for instructions: [Building from source](https://bmsdk.dev/docs/contributing/building/)
+Building this fork works exactly like building the original BmSDK: [Building from source](https://bmsdk.dev/docs/contributing/building/).
+
+Fixes and features that aren't Epic-specific belong in the [original BmSDK-AK repository](https://github.com/Team-BmSDK/BmSDK-AK), so everyone benefits from them.
+
+## 🙏 Credits
+- **[Eli Kramer (etkramer)](https://github.com/etkramer)** and **[Team-BmSDK](https://github.com/Team-BmSDK)**, for creating and maintaining [BmSDK](https://github.com/Team-BmSDK/BmSDK-AK) and its [documentation](https://bmsdk.dev/docs). This fork wouldn't exist without their work.
+- **[Christian Berdejo (cberdejo)](https://github.com/cberdejo)**, for the Epic Games compatibility changes in this fork.
 
 ## 📋 Legal notice
-BmSDK is published under the [MIT licence](LICENSE.md).
+BmSDK is published under the [MIT licence](LICENSE.md), © Eli Kramer. This fork is distributed under the same licence, and the original copyright notice is kept unchanged.
 
-BmSDK is not associated with Warner Bros. Games or Rocksteady Studios. All product and company names are trademarks or registered trademarks of their respective holders. Use of these names does not imply any affiliation or endorsement by them.
+This fork is unofficial and is not affiliated with or endorsed by the BmSDK team. BmSDK is not associated with Warner Bros. Games or Rocksteady Studios. All product and company names are trademarks or registered trademarks of their respective holders. Use of these names does not imply any affiliation or endorsement by them.
