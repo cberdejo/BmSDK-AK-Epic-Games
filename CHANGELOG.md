@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.0](https://github.com/cberdejo/BmSDK-AK-Epic-Games/compare/v0.21.0...v0.22.0) (2026-10-12)
+
+
+### Features
+
+* Support Epic Games copies of Arkham Knight ([c51321f](https://github.com/cberdejo/BmSDK-AK-Epic-Games/commit/c51321fb4991c34e564b30444aa173b148da15d2))
+
 ## [0.21.0](https://github.com/Team-BmSDK/BmSDK-AK/compare/v0.19.0...v0.21.0) (2026-09-12)
 
 
